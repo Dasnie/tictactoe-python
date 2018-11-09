@@ -25,6 +25,8 @@ def movimento_jogador(icone):
     else:
         print()
         print("Esse ja foi marcado!")
+        mostrar_quadro()
+        movimento_jogador(icone)
 
 def vitoria(icone):
     if (quadro[0] == icone and quadro[1] == icone and quadro[2] == icone) or \
