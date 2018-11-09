@@ -16,9 +16,9 @@ def movimento_jogador(icone):
         num = 1
     elif icone == "O":
         num = 2
-        
+
     print("A vez do jogador {}.".format(num))
-    
+
     escolha = int(input("Digite um numero para marcar o quadro (1-9): ").strip())
     if quadro[escolha - 1] == " ":
         quadro[escolha - 1] = icone
@@ -33,17 +33,18 @@ def vitoria(icone):
         (quadro[0] == icone and quadro[3] == icone and quadro[6] == icone) or \
         (quadro[1] == icone and quadro[4] == icone and quadro[7] == icone) or \
         (quadro[2] == icone and quadro[5] == icone and quadro[8] == icone) or \
+        (quadro[0] == icone and quadro[4] == icone and quadro[8]) == icone or \
         (quadro[2] == icone and quadro[4] == icone and quadro[6] == icone):
         return True
     else:
         return False
-        
+
 def empate():
     if " " not in quadro:
         return True
     else:
         return False
-    
+
 
 while True:
     mostrar_quadro()
