@@ -56,7 +56,7 @@ while True:
         print("X venceu! Parabens!")
         break
     elif empate():
-        print("It's a draw!")
+        print("Jogo EMPATADO!")
         break
     movimento_jogador("O")
     if vitoria("O"):
