@@ -1,15 +1,33 @@
 #!/usr/bin/env python
 
+JOGADORES = {
+    'X': 1,
+    'O': 2
+}
+
+COMBINACOES_VITORIA = (
+    (0, 1, 2),
+    (3, 4, 5),
+    (6, 7, 8),
+    (0, 3, 6),
+    (1, 4, 7),
+    (2, 5, 8),
+    (0, 4, 8),
+    (2, 4, 6)
+)
+
 
 def mostrar_quadro(quadro):
-    linha1 = "|{}|{}|{}|".format(quadro[0], quadro[1], quadro[2])
-    linha2 = "|{}|{}|{}|".format(quadro[3], quadro[4], quadro[5])
-    linha3 = "|{}|{}|{}|".format(quadro[6], quadro[7], quadro[8])
+    linhas = [
+        [quadro[0], quadro[1], quadro[2]],
+        [quadro[3], quadro[4], quadro[5]],
+        [quadro[6], quadro[7], quadro[8]]
+    ]
+
+    linhas = map(lambda linha: "|{}|{}|{}|".format(*linha), linhas)
 
     print()
-    print(linha1)
-    print(linha2)
-    print(linha3)
+    print("\n".join(linhas))
     print()
 
 
@@ -19,7 +37,7 @@ def validar_escolha(escolha):
     except ValueError:
         return False
 
-    if escolha not in list(range(1, 9)):
+    if escolha not in list(range(1, 10)):
         return False
 
     return True
@@ -38,12 +56,7 @@ def ler_escolha():
 
 
 def movimento_jogador(quadro, icone):
-    if icone == "X":
-        num = 1
-    elif icone == "O":
-        num = 2
-
-    print("A vez do jogador {}.".format(num))
+    print("A vez do jogador {}.".format(JOGADORES[icone]))
 
     escolha = ler_escolha()
 
@@ -57,50 +70,45 @@ def movimento_jogador(quadro, icone):
 
 
 def vitoria(quadro, icone):
-    if (quadro[0] == icone and quadro[1] == icone and quadro[2] == icone) or \
-        (quadro[3] == icone and quadro[4] == icone and quadro[5] == icone) or \
-        (quadro[6] == icone and quadro[7] == icone and quadro[8] == icone) or \
-        (quadro[0] == icone and quadro[3] == icone and quadro[6] == icone) or \
-        (quadro[1] == icone and quadro[4] == icone and quadro[7] == icone) or \
-        (quadro[2] == icone and quadro[5] == icone and quadro[8] == icone) or \
-        (quadro[0] == icone and quadro[4] == icone and quadro[8]) == icone or \
-            (quadro[2] == icone and quadro[4] == icone and quadro[6] == icone):
-        return True
-    else:
-        return False
+    for combinacao in COMBINACOES_VITORIA:
+        venceu = True
+        for posicao in combinacao:
+            if quadro[posicao] != icone:
+                venceu = False
+
+        if venceu:
+            return True
+
+    return False
 
 
 def empate(quadro):
-    if " " not in quadro:
-        return True
-    else:
-        return False
+    return " " not in quadro
 
 
 def inicializa_quadro():
     return [" "] * 9
 
 
+def fazer_jogada(quadro, icone):
+    movimento_jogador(quadro, icone)
+    mostrar_quadro(quadro)
+    if vitoria(quadro, icone):
+        print("{} venceu! Parabens!".format(icone))
+        exit()
+    elif empate(quadro):
+        print("Jogo EMPATADO!")
+        exit()
+
+
 def main():
     quadro = inicializa_quadro()
 
+    mostrar_quadro(quadro)
+
     while True:
-        mostrar_quadro(quadro)
-        movimento_jogador(quadro, "X")
-        mostrar_quadro(quadro)
-        if vitoria(quadro, "X"):
-            print("X venceu! Parabens!")
-            break
-        elif empate(quadro):
-            print("Jogo EMPATADO!")
-            break
-        movimento_jogador(quadro, "O")
-        if vitoria(quadro, "O"):
-            print("O venceu! Parabens!")
-            break
-        elif empate(quadro):
-            print("Jogo EMPATADO!")
-            break
+        fazer_jogada(quadro, "X")
+        fazer_jogada(quadro, "O")
 
 
 main()
