@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-quadro = [" " for i in range(9)]
 
-
-def mostrar_quadro():
+def mostrar_quadro(quadro):
     linha1 = "|{}|{}|{}|".format(quadro[0], quadro[1], quadro[2])
     linha2 = "|{}|{}|{}|".format(quadro[3], quadro[4], quadro[5])
     linha3 = "|{}|{}|{}|".format(quadro[6], quadro[7], quadro[8])
@@ -39,7 +37,7 @@ def ler_escolha():
         print("Valor inválido! Tente novamente.")
 
 
-def movimento_jogador(icone):
+def movimento_jogador(quadro, icone):
     if icone == "X":
         num = 1
     elif icone == "O":
@@ -54,11 +52,11 @@ def movimento_jogador(icone):
     else:
         print()
         print("Esse ja foi marcado!")
-        mostrar_quadro()
-        movimento_jogador(icone)
+        mostrar_quadro(quadro)
+        movimento_jogador(quadro, icone)
 
 
-def vitoria(icone):
+def vitoria(quadro, icone):
     if (quadro[0] == icone and quadro[1] == icone and quadro[2] == icone) or \
         (quadro[3] == icone and quadro[4] == icone and quadro[5] == icone) or \
         (quadro[6] == icone and quadro[7] == icone and quadro[8] == icone) or \
@@ -72,29 +70,35 @@ def vitoria(icone):
         return False
 
 
-def empate():
+def empate(quadro):
     if " " not in quadro:
         return True
     else:
         return False
 
 
+def inicializa_quadro():
+    return [" "] * 9
+
+
 def main():
+    quadro = inicializa_quadro()
+
     while True:
-        mostrar_quadro()
-        movimento_jogador("X")
-        mostrar_quadro()
-        if vitoria("X"):
+        mostrar_quadro(quadro)
+        movimento_jogador(quadro, "X")
+        mostrar_quadro(quadro)
+        if vitoria(quadro, "X"):
             print("X venceu! Parabens!")
             break
-        elif empate():
+        elif empate(quadro):
             print("Jogo EMPATADO!")
             break
-        movimento_jogador("O")
-        if vitoria("O"):
+        movimento_jogador(quadro, "O")
+        if vitoria(quadro, "O"):
             print("O venceu! Parabens!")
             break
-        elif empate():
+        elif empate(quadro):
             print("Jogo EMPATADO!")
             break
 
