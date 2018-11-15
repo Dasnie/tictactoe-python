@@ -82,7 +82,7 @@ def vitoria(quadro, icone):
     return False
 
 
-def empate(quadro):
+def fim(quadro):
     return " " not in quadro
 
 
@@ -96,7 +96,7 @@ def fazer_jogada(quadro, icone):
     if vitoria(quadro, icone):
         print("{} venceu! Parabens!".format(icone))
         exit()
-    elif empate(quadro):
+    elif fim(quadro):
         print("Jogo EMPATADO!")
         exit()
 
