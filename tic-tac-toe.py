@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 quadro = [" " for i in range(9)]
 
 
@@ -13,6 +15,30 @@ def mostrar_quadro():
     print()
 
 
+def validar_escolha(escolha):
+    try:
+        escolha = int(escolha)
+    except ValueError:
+        return False
+
+    if escolha not in list(range(1, 9)):
+        return False
+
+    return True
+
+
+def ler_escolha():
+    while True:
+        escolha = input(
+            "Digite um numero para marcar o quadro (1-9): "
+        ).strip()
+
+        if validar_escolha(escolha):
+            return int(escolha)
+
+        print("Valor inválido! Tente novamente.")
+
+
 def movimento_jogador(icone):
     if icone == "X":
         num = 1
@@ -21,9 +47,8 @@ def movimento_jogador(icone):
 
     print("A vez do jogador {}.".format(num))
 
-    escolha = int(
-        input("Digite um numero para marcar o quadro (1-9): ").strip()
-    )
+    escolha = ler_escolha()
+
     if quadro[escolha - 1] == " ":
         quadro[escolha - 1] = icone
     else:
@@ -54,20 +79,24 @@ def empate():
         return False
 
 
-while True:
-    mostrar_quadro()
-    movimento_jogador("X")
-    mostrar_quadro()
-    if vitoria("X"):
-        print("X venceu! Parabens!")
-        break
-    elif empate():
-        print("Jogo EMPATADO!")
-        break
-    movimento_jogador("O")
-    if vitoria("O"):
-        print("O venceu! Parabens!")
-        break
-    elif empate():
-        print("Jogo EMPATADO!")
-        break
+def main():
+    while True:
+        mostrar_quadro()
+        movimento_jogador("X")
+        mostrar_quadro()
+        if vitoria("X"):
+            print("X venceu! Parabens!")
+            break
+        elif empate():
+            print("Jogo EMPATADO!")
+            break
+        movimento_jogador("O")
+        if vitoria("O"):
+            print("O venceu! Parabens!")
+            break
+        elif empate():
+            print("Jogo EMPATADO!")
+            break
+
+
+main()
